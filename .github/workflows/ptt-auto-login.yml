@@ -1,0 +1,20 @@
+name: ptt-auto-login
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install package
+        run: pip3 install PyPtt
+
+      - name: login
+        run: python3 -c "import PyPtt; ptt_bot=PyPtt.API(); ptt_bot.login(${{ secrets.USERNAME }}, ${{ secrets.PASSWORD }}); ptt_bot.logout()"
